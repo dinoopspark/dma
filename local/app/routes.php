@@ -26,3 +26,4 @@ Route::get('temptest', 'TestController@test_template');
 Route::any('admin/laravel-ajax', 'AjaxController@index');
 
 Route::resource('users', 'UsersController');
+Route::resource('category', 'CategoryController');

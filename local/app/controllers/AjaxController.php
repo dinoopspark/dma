@@ -17,6 +17,10 @@ class AjaxController extends BaseController {
         if ($input['action'] == 'user_update_password') {
             UsersController::ajax_update_password($input);
         }
+        
+        if ($input['action'] == 'category_delete') {
+            CategoryController::ajax_delete($input);
+        }
     }
 
 }

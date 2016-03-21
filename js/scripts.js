@@ -1,15 +1,17 @@
 $(function () {
 
-    var base_url = 'http://localhost/dma';
+    
 
     $(".row-delete").click(function () {
         var $this = $(this);
 
         var action = $(this).attr("data-action");
+        
+        var auth_actions = ['user_delete', 'category_delete'];
 
-        if (action == "user_delete") {
-            var user_id = $(this).attr("data-id");
-            var data = {action: action, user_id: user_id};
+        if (auth_actions.indexOf(action) >= 0) {
+            var model_id = $(this).attr("data-id");
+            var data = {action: action, model_id: model_id};
 
             $.get(dmaGlobal.ajax_url, data, function (response) {
                 if (response) {
@@ -18,10 +20,14 @@ $(function () {
 
             });
         }
+        
+        
 
 
 
     });
+    
+    
 
 
     $(".ajax-form-submit").click(function (e) {

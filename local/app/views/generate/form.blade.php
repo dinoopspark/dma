@@ -108,13 +108,18 @@ $sample_form = array(
 
     @endif
 
-    @if(in_array($type, array('text', 'email', 'password', 'select', 'radio', 'checkbox')))
+    @if(in_array($type, array('hidden')))
+        {{Form::hidden($name, $value);}}
+    @endif
+    
+    @if(in_array($type, array('text', 'email', 'password', 'select', 'radio', 'checkbox', 'textarea')))
 
     {{ Form::label($field_id, $label, array('class' => 'control-label col-md-3 col-sm-3 col-xs-12')) }}
 
     <?php
     switch ($type):
         case 'text':
+        case 'hidden':
         case 'email':
             ?>
             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -161,6 +166,14 @@ $sample_form = array(
                     {{ $val }}
                 </label>
                 @endforeach
+            </div>
+            <?php
+            break;
+        
+        case 'textarea':
+            ?>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                {{ Form::$type($name, null, array('class' => 'form-control col-md-7 col-xs-12', 'id' => $field_id)) }}
             </div>
             <?php
             break;

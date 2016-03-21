@@ -196,7 +196,8 @@ class UsersController extends BaseController {
 
         if (User::hasrole('user_delete')) {
 
-            $id = $input['user_id'];
+            $id = $input['model_id'];
+            
             $action = $input['action'];
 
             if ($id == Auth::user()->id) {
@@ -207,8 +208,9 @@ class UsersController extends BaseController {
                 User::find($id)->delete();
                 echo true;
             }
-            die();
+            
         }
+        die();
     }
 
     public function login() {

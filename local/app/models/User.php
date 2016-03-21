@@ -31,11 +31,18 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
             'name' => 'Super admin',
             'capabilities' => array(
                 'view_user_lists',
+                
                 'user_add',
                 'user_edit',
                 'user_delete',
                 'case_add',
                 'case_edit',
+                'case_delete',
+                
+                'view_category_list',
+                'category_add',
+                'category_edit',
+                'category_delete',
                 
             ),
         ),

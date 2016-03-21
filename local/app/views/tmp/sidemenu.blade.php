@@ -17,8 +17,9 @@
                 <h3>General</h3>
                 <ul class="nav side-menu">
                     
-                    <li><a href="<?php echo action('UsersController@profile'); ?>" ><i class="fa fa-home"></i> Profile</a></li>
-                    <li><a href="<?php echo action('UsersController@index'); ?>" ><i class="fa fa-users"></i> Users</a></li>
+                    <li><a href="{{ url('admin/profile') }}" ><i class="fa fa-home"></i> Profile</a></li>
+                    <li><a href="{{ url('users') }}" ><i class="fa fa-users"></i> Users</a></li>
+                    <li><a href="{{ url('category') }}" ><i class="fa fa-folder-open"></i> Categories</a></li>
                     <li><a><i class="fa fa-edit"></i> Forms <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu" style="display: none">
                             <li><a href="form.html">General Form</a>

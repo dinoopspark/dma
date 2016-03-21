@@ -71,3 +71,10 @@ function is_serialized($value, &$result = null) {
  * Relations
  */
 
+function get_current_user_id() {
+    return (isset(Auth::user()->id))? Auth::user()->id : false;
+}
+
+function get_user_by_id($id, $col='name') {
+    return User::find($id)->$col;
+}
