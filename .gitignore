@@ -1,0 +1,5 @@
+/local/bootstrap/compiled.php
+/local/vendor
+/local/composer.phar
+/local/composer.lock
+nbproject

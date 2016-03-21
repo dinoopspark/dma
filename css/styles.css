@@ -1,0 +1,25 @@
+.login {
+    margin-top: 15%;
+}
+
+.login input {
+    height: 50px;
+    border-radius: 3px;
+}
+
+.login {
+    
+    text-align: center;
+}
+
+.error {
+    color: #f00;
+}
+
+.row-delete {
+    cursor: pointer;
+}
+
+.checkbox label input, .radio label input {
+    margin-top: 2px;
+}
