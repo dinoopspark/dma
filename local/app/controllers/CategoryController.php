@@ -50,21 +50,6 @@ class CategoryController extends \BaseController {
 
             $category = Category::create($input);
 
-            // Store fields value in fields-table
-            foreach ($input['fields'] as $field_row) {
-
-                if (!isset($field_row['field_name'])) {
-                    continue;
-                }
-
-                $data['category_id'] = $category->id;
-                $data['field_name'] = $field_row['field_name'];
-                $data['review_file'] = isset($field_row['review_file']) ? 1 : 0;
-                $data['all_db'] = isset($field_row['all_db']) ? 1 : 0;
-
-                Field::create($data);
-            }
-
             return Redirect::route('category.index');
         }
 
@@ -107,6 +92,7 @@ class CategoryController extends \BaseController {
             'name' => 'created_by',
             'value' => get_current_user_id(),
         );
+        
 
         $form = FormController::prepare_form($form);
 
@@ -131,7 +117,9 @@ class CategoryController extends \BaseController {
         if ($validation->passes()) {
             $category = Category::find($id);
             $category->update($input);
-            return Redirect::route('category.index');
+            return Redirect::route('category.edit', $id)
+                            ->withInput()
+                            ->withErrors($validation);
         }
 
         return Redirect::route('category.edit', $id)
@@ -166,6 +154,12 @@ class CategoryController extends \BaseController {
             }
         }
         echo false;
+        die();
+    }
+
+    public static function ng_get_field_set($id) {
+        $fields = Category::get_field_set($id);
+        echo json_encode($fields);
         die();
     }
 

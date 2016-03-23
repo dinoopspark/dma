@@ -23,6 +23,8 @@
         <link href="{{ asset('gentelella/css/icheck/flat/green.css') }}" rel="stylesheet" />
         <link href="{{ asset('gentelella/css/floatexamples.css') }}" rel="stylesheet" type="text/css" />
 
+        
+        <script>var dmaGlobal = {base_url: "{{ url('/') }}", ajax_url: "{{ url('/admin/laravel-ajax') }}"}</script>
         <script src="{{ asset('js/angular.min.js') }}"></script>
         <script src="{{ asset('js/ng-scripts.js') }}"></script>
         
@@ -31,7 +33,7 @@
         <script src="{{ asset('gentelella/js/nprogress.js') }}"></script>
         <link href="{{ asset('css/styles.css') }}" rel="stylesheet" type="text/css" />
         
-        <script>var dmaGlobal = {base_url: "{{ url('/') }}", ajax_url: "{{ url('/admin/laravel-ajax') }}"}</script>
+        
 
         
 

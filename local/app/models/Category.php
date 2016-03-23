@@ -6,7 +6,8 @@ class Category extends Eloquent {
     protected $guarded = array("id");
     protected $fillable = array(
         "title", // tile for the category
-        "description",
+        "description", // description for the category
+        "field_set", // json string containg the column name and other attributes
         "db_count", // Quantity of sample DB
         "created_by", // User id
     );
@@ -33,13 +34,15 @@ class Category extends Eloquent {
             ),
             array(
                 'type' => 'html',
-                'content' => '<fields ng-repeat="(key, field) in fields" name="field"></fields>
+                'content' => '<fields ng-repeat="(key, field) in fields" itemset="fields" item="field" key="key"></fields>
                                 <div class="col-md-offset-3 col-md-6 col-sm-6 col-xs-12">
+                                <input type="hidden" name="field_set" value="{{fields}}">
                                 <button type="button" ng-click="addField()" class="btn btn-default">(+)</button>
                               </div>',
             ),
         ),
     );
+    
     public static $rules_category_create = array(
         'title' => 'required|unique:category'
     );
@@ -67,8 +70,9 @@ class Category extends Eloquent {
         return $sql;
     }
 
-    public function fields() {
-        return $this->hasMany('Field');
+    public static function get_field_set($id) {
+        return self::where('id', $id)->select('field_set')->get();
+        
     }
 
 }

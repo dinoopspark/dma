@@ -4,7 +4,7 @@
 
 @section('main')
 
-<div class="right_col" role="main">
+<div class="right_col" role="main" ng-controller="editCategoryController">
 
 
     <div class="row">

@@ -1,53 +1,70 @@
 var app = angular.module("DMA", []);
 
-app.controller('CreatefieldController', function ($scope, $compile) {
+app.controller('CreatefieldController', function ($scope, fieldService) {
 
-    $scope.fields = [
-        {
-            field_label: 'Field 1',
-            field_name: "fields[field_1][field_name]",
-            review_file: "fields[field_1][review_file]",
-            all_db: "fields[field_1][all_db]",
-        },
-    ];
-
-    $scope.count = 1;
+    $scope.fields = [];
+    $scope.fields = fieldService.addField($scope.fields);
 
     $scope.addField = function () {
-        var count = ++$scope.count;
-        var next = {
-            field_label: 'Field ' + count,
-            field_name: "fields[field_" + count + "][field_name]",
-            review_file: "fields[field_" + count + "][review_file]",
-            all_db: "fields[field_" + count + "][all_db]",
-        };
-        $scope.fields.push(next);
+        $scope.fields = fieldService.addField($scope.fields);
     }
-    
-    $scope.clock = "2 O clock";
+});
 
-//    $scope.removeField = function (key) {
-//        console.log(key);
-//        //$scope.fields.splice(key, 1);
-//    }
+app.controller('editCategoryController', function ($scope, fieldService, $http) {
+
+    
+    
+    var model_id = angular.element(document.getElementsByName('model_id')).val();
+    var data = {model_id: model_id, action: 'get_field_set'};
+
+    $http.post(dmaGlobal.ajax_url, data).then(function (response) {
+        
+        var json_string = response.data[0].field_set;
+        $scope.fields = angular.fromJson(json_string);
+        
+    });
+
+    var json_string = '[{"id":"7","category_id":"11","field_name":"gi","review_file":"1","all_db":"1"},{"id":"8","category_id":"11","field_name":"TI","review_file":"1","all_db":"0"}]';
+
+    
+
+    $scope.addField = function () {
+        $scope.fields = fieldService.addField($scope.fields);
+    }
+
 
 });
 
 app.directive("fields", function () {
     var directive = {};
     directive.restrict = 'E';
-    directive.templateUrl = "../local/app/views/category/table-fields.html"
+    directive.templateUrl = dmaGlobal.base_url + "/local/app/views/category/table-fields.html";
     directive.scope = {
-        item: "=name",
-        hillMin: "=",
+        itemset: "=",
+        item: "=",
+        key: "=",
     }
 
     directive.link = function (scope, element, attrs) {
         scope.removeField = function (key) {
-            element.html("");
+            scope.itemset.splice(key, 1);
         }
-
     }
 
     return directive;
+});
+
+
+
+app.service("fieldService", function () {
+    this.addField = function (fields) {
+        var next = {
+            field_name: "",
+            review_file: "0",
+            all_db: "1",
+        };
+
+        fields.push(next);
+        return fields;
+    }
 });

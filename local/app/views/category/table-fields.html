@@ -1,17 +1,17 @@
 <div class="form-group">
-    <label for="field_2" class="control-label col-md-3 col-sm-3 col-xs-12">{{item.field_label}}</label>
+    <label for="field_2" class="control-label col-md-3 col-sm-3 col-xs-12">Field {{key}}</label>
     <div class="col-md-4">
-        <input class="form-control" id="field_2" name="{{item.field_name}}" type="text">
+        <input class="form-control" id="field_2" ng-model="item.field_name" type="text">
     </div>
     <div class="col-md-2 checkbox">
         <label>
-            <input  name="{{item.review_file}}" type="checkbox"> Review file
+            <input  ng-model="item.review_file" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"> Review file
         </label>
 
     </div>
     <div class="col-md-1 checkbox">
         <label>
-            <input  name="{{item.all_db}}" type="checkbox"> All DB
+            <input  ng-model="item.all_db" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"> All DB
         </label>
     </div>
     <div class="col-md-1">
