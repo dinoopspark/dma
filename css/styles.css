@@ -23,3 +23,9 @@
 .checkbox label input, .radio label input {
     margin-top: 2px;
 }
+
+
+i.field_remove {
+    margin-top: 9px;
+    cursor: pointer;
+}

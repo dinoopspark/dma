@@ -1,12 +1,10 @@
 $(function () {
 
-    
-
     $(".row-delete").click(function () {
         var $this = $(this);
 
         var action = $(this).attr("data-action");
-        
+
         var auth_actions = ['user_delete', 'category_delete'];
 
         if (auth_actions.indexOf(action) >= 0) {
@@ -20,14 +18,8 @@ $(function () {
 
             });
         }
-        
-        
-
-
 
     });
-    
-    
 
 
     $(".ajax-form-submit").click(function (e) {
@@ -41,6 +33,11 @@ $(function () {
 
         }, 'json');
     });
+
+
+
+    
+    
 });
 
 

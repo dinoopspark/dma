@@ -10,9 +10,6 @@ class Category extends Eloquent {
         "db_count", // Quantity of sample DB
         "created_by", // User id
     );
-    
-    
-    
     public static $category_create_form = array(
         'form_id' => 'create_category',
         'route' => 'category.store',
@@ -34,7 +31,13 @@ class Category extends Eloquent {
                 'label' => 'Quantity of sample DB',
                 'name' => 'db_count',
             ),
-            
+            array(
+                'type' => 'html',
+                'content' => '<fields ng-repeat="(key, field) in fields" name="field"></fields>
+                                <div class="col-md-offset-3 col-md-6 col-sm-6 col-xs-12">
+                                <button type="button" ng-click="addField()" class="btn btn-default">(+)</button>
+                              </div>',
+            ),
         ),
     );
     public static $rules_category_create = array(
@@ -62,6 +65,10 @@ class Category extends Eloquent {
         $field .= "PRIMARY KEY(id)";
         $sql = "CREATE TABLE $table_name ($field)";
         return $sql;
+    }
+
+    public function fields() {
+        return $this->hasMany('Field');
     }
 
 }

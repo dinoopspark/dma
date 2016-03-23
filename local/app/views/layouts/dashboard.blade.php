@@ -23,6 +23,9 @@
         <link href="{{ asset('gentelella/css/icheck/flat/green.css') }}" rel="stylesheet" />
         <link href="{{ asset('gentelella/css/floatexamples.css') }}" rel="stylesheet" type="text/css" />
 
+        <script src="{{ asset('js/angular.min.js') }}"></script>
+        <script src="{{ asset('js/ng-scripts.js') }}"></script>
+        
         <script src="{{ asset('js/jquery.min.js') }}"></script>
         <script src="{{ asset('js/scripts.js') }}"></script>
         <script src="{{ asset('gentelella/js/nprogress.js') }}"></script>
@@ -41,7 +44,7 @@
     </head>
 
 
-    <body class="nav-md">
+    <body class="nav-md" ng-app="DMA">
 
         <div class="container body">
 

@@ -7,8 +7,9 @@ class FormController extends BaseController {
         $new_fields = array();
         foreach ($form['fields'] as $value) {
             if (!isset($value['name'])) {
-                if (in_array($value['type'], array('heading', 'para'))) {
-                    $heading = 'heading_' . rand();
+                
+                if (in_array($value['type'], array('heading', 'para', 'html'))) {
+                    $heading = 'node_' . rand();
                     $new_fields[$heading] = $value;
                 }
                 continue;

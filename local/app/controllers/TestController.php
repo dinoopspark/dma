@@ -6,9 +6,6 @@ class TestController extends BaseController {
 
     function test() {
         
-        Category::create_table_sql();
-            
-        
     }
     
     

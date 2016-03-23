@@ -23,9 +23,9 @@ class CategoryController extends \BaseController {
      * @return Response
      */
     public function create() {
-        
+
         $form = Category::$category_create_form;
-        
+
         $form['fields'][] = array(
             'type' => 'hidden',
             'name' => 'created_by',
@@ -43,10 +43,27 @@ class CategoryController extends \BaseController {
      */
     public function store() {
         $input = Input::all();
+
         $validation = Validator::make($input, Category::$rules_category_create);
 
         if ($validation->passes()) {
-            Category::create($input);
+
+            $category = Category::create($input);
+
+            // Store fields value in fields-table
+            foreach ($input['fields'] as $field_row) {
+
+                if (!isset($field_row['field_name'])) {
+                    continue;
+                }
+
+                $data['category_id'] = $category->id;
+                $data['field_name'] = $field_row['field_name'];
+                $data['review_file'] = isset($field_row['review_file']) ? 1 : 0;
+                $data['all_db'] = isset($field_row['all_db']) ? 1 : 0;
+
+                Field::create($data);
+            }
 
             return Redirect::route('category.index');
         }
@@ -84,7 +101,7 @@ class CategoryController extends \BaseController {
         }
 
         $form = Category::$category_create_form;
-        
+
         $form['fields'][] = array(
             'type' => 'hidden',
             'name' => 'created_by',
@@ -92,12 +109,12 @@ class CategoryController extends \BaseController {
         );
 
         $form = FormController::prepare_form($form);
-        
+
         $form['form_id'] = 'category_edit';
         $form['route'] = 'category.update';
         $form['method'] = 'PATCH';
         $form['model'] = $category;
-        
+
         return View::make('category.edit', compact('form'));
     }
 

@@ -4,7 +4,7 @@
 
 @section('main')
 
-<div class="right_col" role="main">
+<div class="right_col" role="main" ng-controller="CreatefieldController">
 
 
     <div class="row">
@@ -14,14 +14,16 @@
                     <h2>Create new category</h2>
                     <div class="clearfix"></div>
                 </div>
-                
 
+
+                <div id="loopfields-de"></div>
                 @include('generate.form', $form)
 
+                
             </div>
         </div>
     </div>
-    
+
 </div>
 
 

@@ -84,11 +84,14 @@ $sample_form = array(
 @endif
 
 @foreach($form['fields'] as $value)
-<div class="form-group">
+<?php extract($value); ?>
 
-    <?php extract($value); ?>
 
-    @if(in_array($type, array('heading', 'para')))
+@if (in_array($type, array('html'))) 
+{{ $content }}
+@endif  
+
+@if(in_array($type, array('heading', 'para')))
     <?php
     switch ($type):
         case 'heading':
@@ -106,82 +109,83 @@ $sample_form = array(
     endswitch;
     ?>
 
-    @endif
+@endif
 
-    @if(in_array($type, array('hidden')))
-        {{Form::hidden($name, $value);}}
-    @endif
-    
-    @if(in_array($type, array('text', 'email', 'password', 'select', 'radio', 'checkbox', 'textarea')))
+@if(in_array($type, array('hidden')))
+    {{Form::hidden($name, $value);}}
+@endif
+
+@if(in_array($type, array('text', 'email', 'password', 'select', 'radio', 'checkbox', 'textarea')))
 
     {{ Form::label($field_id, $label, array('class' => 'control-label col-md-3 col-sm-3 col-xs-12')) }}
+    <div class="form-group">
+        <?php
+        switch ($type):
+            case 'text':
+            case 'hidden':
+            case 'email':
+                ?>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    {{ Form::$type($name, null, array('class' => 'form-control col-md-7 col-xs-12', 'id' => $field_id)) }}
+                </div>
+                <?php
+                break;
 
-    <?php
-    switch ($type):
-        case 'text':
-        case 'hidden':
-        case 'email':
-            ?>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                {{ Form::$type($name, null, array('class' => 'form-control col-md-7 col-xs-12', 'id' => $field_id)) }}
-            </div>
-            <?php
-            break;
+            case 'password':
+                ?>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    {{ Form::$type($name, array('class' => 'form-control col-md-7 col-xs-12', 'id' => $field_id)) }}
+                </div>
+                <?php
+                break;
 
-        case 'password':
-            ?>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                {{ Form::$type($name, array('class' => 'form-control col-md-7 col-xs-12', 'id' => $field_id)) }}
-            </div>
-            <?php
-            break;
+            case 'select':
+                ?>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    {{ Form::select($name, $options, null, array('class' => 'form-control col-md-7 col-xs-12', 'id' => $field_id)) }}
+                </div>
+                <?php
+                break;
 
-        case 'select':
-            ?>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                {{ Form::select($name, $options, null, array('class' => 'form-control col-md-7 col-xs-12', 'id' => $field_id)) }}
-            </div>
-            <?php
-            break;
+            case 'radio':
+                ?>
+                <div class="col-md-6 col-sm-6 col-xs-12 radio">
+                    @foreach($options as $key => $val)
+                    <label>
+                        {{ Form::radio($name, $key) }}
+                        {{ $val }}
+                    </label>
+                    @endforeach
+                </div>
+                <?php
+                break;
 
-        case 'radio':
-            ?>
-            <div class="col-md-6 col-sm-6 col-xs-12 radio">
-                @foreach($options as $key => $val)
-                <label>
-                    {{ Form::radio($name, $key) }}
-                    {{ $val }}
-                </label>
-                @endforeach
-            </div>
-            <?php
-            break;
+            case 'checkbox':
+                ?>
+                <div class="col-sm-9 checkbox">
+                    @foreach($options as $key => $val)
+                    <label>
+                        {{ Form::checkbox($name . '[]', $key) }}
+                        {{ $val }}
+                    </label>
+                    @endforeach
+                </div>
+                <?php
+                break;
 
-        case 'checkbox':
-            ?>
-            <div class="col-sm-9 checkbox">
-                @foreach($options as $key => $val)
-                <label>
-                    {{ Form::checkbox($name . '[]', $key) }}
-                    {{ $val }}
-                </label>
-                @endforeach
-            </div>
-            <?php
-            break;
-        
-        case 'textarea':
-            ?>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                {{ Form::$type($name, null, array('class' => 'form-control col-md-7 col-xs-12', 'id' => $field_id)) }}
-            </div>
-            <?php
-            break;
-    endswitch;
-    ?>
-    @endif
+            case 'textarea':
+                ?>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    {{ Form::$type($name, null, array('class' => 'form-control col-md-7 col-xs-12', 'id' => $field_id)) }}
+                </div>
+                <?php
+                break;
+        endswitch;
+        ?>
+    </div>
+@endif
 
-</div>
+
 
 
 @endforeach
