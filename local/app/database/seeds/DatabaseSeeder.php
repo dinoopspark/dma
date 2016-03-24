@@ -11,7 +11,8 @@ class DatabaseSeeder extends Seeder {
 	{
 		Eloquent::unguard();
 
-		$this->call('MarkTableSeeder');
+		$this->call('FieldsTableSeeder');
+                $this->command->info('seeding!');
 	}
 
 }
