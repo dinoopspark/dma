@@ -3,3 +3,4 @@
 /local/composer.phar
 /local/composer.lock
 nbproject
+/var/www/html/dma/local/app/includes

@@ -42,7 +42,6 @@ class Category extends Eloquent {
             ),
         ),
     );
-    
     public static $rules_category_create = array(
         'title' => 'required|unique:category'
     );
@@ -62,17 +61,91 @@ class Category extends Eloquent {
 
         $field = "id int(11) NOT NULL AUTO_INCREMENT, ";
         foreach ($fields as $value) {
-            $field .= "$value varchar(255), ";
+            $field .= "`$value` varchar(255), ";
         }
 
         $field .= "PRIMARY KEY(id)";
-        $sql = "CREATE TABLE $table_name ($field)";
+        $sql = "CREATE TABLE `$table_name` ($field)";
         return $sql;
+    }
+
+    public static function create_table($table_name, $fields) {
+
+        // sample inputs
+        // $table_name = 'col';
+        // $fields = self::read_json();
+        
+        if(!is_array($fields)){
+            return false;
+        }
+        
+        $sql = "SHOW TABLES LIKE '$table_name'";
+        $check_table = DB::select($sql);
+
+        if (count($check_table)) {
+            
+            //get existing table column name
+            $column_name_sql = "SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA`='laravel_dma' AND `TABLE_NAME`='$table_name';";
+            $column_name_result = DB::select($column_name_sql);
+            $column_names = array();
+            
+            foreach ($column_name_result as $key => $value) {
+                $column_names[] = $value->COLUMN_NAME;
+            }
+            
+            $new_columns = array_diff($fields, $column_names);
+            $drop_columns = array_diff($column_names, $fields);
+
+            if (count($new_columns)) {
+
+                // Found Changes
+                array_walk($new_columns, function(&$value, $key) {
+                    $value = "`$value` varchar(255)";
+                });
+
+                $new_columns_sql_part = implode(',', $new_columns);
+                $alter_table_sql = "ALTER TABLE `$table_name` ADD COLUMN ($new_columns_sql_part)";
+                DB::statement($alter_table_sql);
+            }
+
+            if (count($drop_columns)) {
+                
+                $drop_columns = array_diff($drop_columns, array('id'));
+                
+                foreach ($drop_columns as $value) {
+                    $drop_column_sql = "ALTER TABLE $table_name DROP COLUMN `$value`";
+                    DB::statement($drop_column_sql);
+                }
+            }
+        } else {
+            // no table exist with the name create new one
+            $create_table_sql = self::get_table_sql($table_name, $fields);
+            DB::statement($create_table_sql);
+        }
+        
+    }
+
+    public static function read_json($json) {
+
+        //sample input 
+        //$json = '[{"field_name":"bio","review_file":"0","all_db":"1"},{"field_name":"hiy","review_file":"0","all_db":"0"}]';
+
+        $json_arr = json_decode($json);
+        
+        if(!is_array($json_arr)){
+            return false;
+        }
+        
+
+        $fields = array();
+        foreach ($json_arr as $key => $value) {
+            $fields[] = $value->field_name;
+        }
+        return $fields;
     }
 
     public static function get_field_set($id) {
         return self::where('id', $id)->select('field_set')->get();
-        
     }
 
 }
